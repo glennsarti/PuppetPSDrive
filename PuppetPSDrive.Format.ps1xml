@@ -33,6 +33,7 @@
         <TypeName>PuppetConsoleServiceStatus</TypeName>
         <TypeName>PuppetConsoleServiceStatusCollection</TypeName>
         <TypeName>PuppetConsoleClassification</TypeName>
+        <TypeName>PuppetConsoleTaskCollection</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
@@ -62,6 +63,7 @@
         <TypeName>PuppetConsoleServiceStatus</TypeName>
         <TypeName>PuppetConsoleServiceStatusCollection</TypeName>
         <TypeName>PuppetConsoleClassification</TypeName>
+        <TypeName>PuppetConsoleTaskCollection</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
