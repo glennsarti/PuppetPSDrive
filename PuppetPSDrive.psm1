@@ -3,6 +3,7 @@ using namespace Microsoft.PowerShell.SHiPS
 $script:PuppetMasterURI = $null
 $script:PuppetRequestSession = $null
 
+[SHiPSProvider(UseCache=$true)]
 class PuppetConsole : SHiPSDirectory
 {
   PuppetConsole() : base($this.GetType())
@@ -17,11 +18,80 @@ class PuppetConsole : SHiPSDirectory
   {
     $obj =  @()
 
-    $obj += [PuppetConsoleServiceStatus]::new();
     $obj += [PuppetConsoleClassification]::new();
+    $obj += [PuppetConsoleServiceStatus]::new();
+    $obj += [PuppetConsoleTaskCollection]::new();
     
     return $obj;
   }
+}
+
+# Tasks
+[SHiPSProvider(UseCache=$true)]
+class PuppetConsoleTaskCollection : SHiPSDirectory
+{
+  PuppetConsoleTaskCollection () : base ('Tasks')
+  {
+  }
+
+  PuppetConsoleTaskCollection ([String]$name): base($name)
+  {
+  }
+
+  [object[]] GetChildItem()
+  {
+    $result = (Invoke-PuppetRequest -URI '/api/tasks' | ConvertFrom-JSON)
+    $obj = ($result.'tasks' | % {
+      Write-Output ([PuppetConsoleTask]::new($_.name, $_))
+    })
+    
+    return $obj;
+  }
+}
+
+[SHiPSProvider(UseCache=$true)]
+class PuppetConsoleTask : SHiPSDirectory
+{
+  [String]$Name;
+  [String]$Description;
+  [String]$Id;
+  [String]$Metadatum;
+  [String[]]$Parameters;
+  [String[]]$RequiredParameters;
+  [Object[]]$ParameterDefinition;
+  
+  Hidden [object]$data = $null
+  Hidden [object]$metadata = $null
+  
+  PuppetConsoleTask ([string]$name): base($name)
+  {
+  }
+
+  PuppetConsoleTask ([string]$name, [Object]$data): base($name)
+  {
+    $this.data = $data
+
+    $this.Name = $name
+    $this.Id = $data.Id
+    $this.Metadatum = $data.metadatum
+
+    $this.metadata = (Invoke-PuppetRequest -URI ('/api/tasks/' + $this.Metadatum + '/meta') | ConvertFrom-JSON)
+
+    $this.ParameterDefinition = $this.metadata.metadatum.params
+    $this.Description = $this.metadata.metadatum.description
+    $this.Parameters = @()
+    $this.RequiredParameters = @()
+    $this.ParameterDefinition | % {
+      $this.Parameters += $_.name
+      if ($_.required) { $this.RequiredParameters += $_.name }
+    }
+  }
+
+  [object[]] GetChildItem()
+  {
+    return @()
+  }
+
 }
 
 # Classification and Node Groups
