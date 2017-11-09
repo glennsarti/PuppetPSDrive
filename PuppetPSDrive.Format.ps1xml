@@ -34,6 +34,7 @@
         <TypeName>PuppetConsoleServiceStatusCollection</TypeName>
         <TypeName>PuppetConsoleClassification</TypeName>
         <TypeName>PuppetConsoleTaskCollection</TypeName>
+        <TypeName>PuppetConsoleNodeOverview</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
@@ -64,6 +65,7 @@
         <TypeName>PuppetConsoleServiceStatusCollection</TypeName>
         <TypeName>PuppetConsoleClassification</TypeName>
         <TypeName>PuppetConsoleTaskCollection</TypeName>
+        <TypeName>PuppetConsoleNodeOverview</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
@@ -82,12 +84,121 @@
       </ListControl>
     </View>
 
+    <!-- Node Overview Views -->
+    <View>
+      <Name>PuppetConsoleNodeOverviewCollectionTableView</Name>
+      <ViewSelectedBy>
+        <TypeName>PuppetConsoleNodeOverviewCollection</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>PuppetPSDriveFormatControl</CustomControlName>
+      </GroupBy>
+      <TableControl>
+        <AutoSize/>
+        <TableHeaders>
+          <TableColumnHeader><Label>Name</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Node Count</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem> 
+              <TableColumnItem><PropertyName>NodeCount</PropertyName></TableColumnItem> 
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PuppetConsoleNodeOverviewCollectionListView</Name>
+      <ViewSelectedBy>
+        <TypeName>PuppetConsoleNodeOverviewCollection</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>PuppetPSDriveFormatControl</CustomControlName>
+      </GroupBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>NodeCount</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+
+    <!-- Node Views -->
+    <View>
+      <Name>PuppetConsoleNodeTableView</Name>
+      <ViewSelectedBy>
+        <TypeName>PuppetConsoleNode</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>PuppetPSDriveFormatControl</CustomControlName>
+      </GroupBy>
+      <TableControl>
+        <AutoSize/>
+        <TableHeaders>
+          <TableColumnHeader><Label>Name</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Status</Label></TableColumnHeader>
+          <TableColumnHeader><Label>Last Report</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem> 
+              <TableColumnItem><PropertyName>Status</PropertyName></TableColumnItem> 
+              <TableColumnItem><PropertyName>ReportedAt</PropertyName></TableColumnItem> 
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>PuppetConsoleNodeListView</Name>
+      <ViewSelectedBy>
+        <TypeName>PuppetConsoleNode</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>PuppetPSDriveFormatControl</CustomControlName>
+      </GroupBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Status</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Last Report</Label>
+                <PropertyName>ReportedAt</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
 
     <!-- Tasks Views -->
     <View>
-      <Name>PuppetConsoleTaskCollectionTableView</Name>
+      <Name>PuppetConsoleTaskTableView</Name>
       <ViewSelectedBy>
-        <TypeName>PuppetConsoleTaskCollection</TypeName>
+        <TypeName>PuppetConsoleTask</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
@@ -113,9 +224,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>PuppetConsoleTaskCollectionListView</Name>
+      <Name>PuppetConsoleTaskListView</Name>
       <ViewSelectedBy>
-        <TypeName>PuppetConsoleNodeGroup</TypeName>
+        <TypeName>PuppetConsoleTask</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <PropertyName>PSParentPath</PropertyName>
@@ -207,9 +318,9 @@
       </ListControl>
     </View>
 
-    <!-- Node Group Views -->
+    <!-- Node Classification Views -->
     <View>
-      <Name>PuppetPSDriveDefaultTableView</Name>
+      <Name>PuppetConsoleNodeGroupTableView</Name>
       <ViewSelectedBy>
         <TypeName>PuppetConsoleNodeGroup</TypeName>
       </ViewSelectedBy>
@@ -241,7 +352,7 @@
       </TableControl>
     </View>
     <View>
-      <Name>PuppetPSDriveServiceStatusItemListView</Name>
+      <Name>PuppetConsoleNodeGroupListView</Name>
       <ViewSelectedBy>
         <TypeName>PuppetConsoleNodeGroup</TypeName>
       </ViewSelectedBy>
