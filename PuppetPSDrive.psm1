@@ -524,3 +524,57 @@ Function Script:Invoke-PuppetRequest($URI, $Method = 'GET', $Body = $null) {
 
   Return $result.Content
 }
+
+# Fake Function
+Function Start-PuppetTask {
+  [CmdletBinding()]
+  Param(
+    [Parameter(Mandatory=$true, Position=0)]
+    [PuppetConsoleTask] $Task,
+
+    [Parameter(Mandatory=$true, ParameterSetName="ByNodeName")]
+    [String[]] $Nodes = $null,
+
+    [Parameter(Mandatory=$true, ParameterSetName="ByNodeObject", ValueFromPipeline=$true)]
+    [Object[]] $InputObject = $null,
+
+    [Alias('Params','Param')]
+    [hashtable]$Parameters = @{},
+
+    [Switch]$Wait
+  )
+
+  Begin {
+    $MissingParams = @()
+    $Task.RequiredParameters | % {
+      if (-Not ($Parameters.ContainsKey($_))) {
+        $MissingParams += $_
+      }
+    }
+
+    if ($MissingParams -ne @()) { Throw "Missing required parameters $($MissingParams -join ', ')"; return }
+
+    $NodeNames = New-Object -TypeName System.Collections.ArrayList
+  }
+
+  Process {
+    if ($_ -ne $null) {
+      $thisNode = $_
+    } else {
+      $thisNode = $Nodes[0]
+    }
+    if ($thisNode.GetType().ToString() -eq 'PuppetConsoleNode') { $thisNode = $thisNode.Name }
+
+    # Fake the job
+    if ($Wait) {
+      $obj = New-Object -TypeName PSObject -Property @{'Node Name' = $thisNode; 'Status' = 'completed' }
+      Write-Output $obj
+    } else {
+      $obj = New-Object -TypeName PSObject -Property @{'Node Name' = $thisNode; 'Status' = 'submitted' }
+      Write-Output $obj
+    }
+  }
+
+  End {
+  }
+}
