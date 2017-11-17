@@ -490,8 +490,9 @@ Function Script:Get-PuppetLoginToken() {
   $sv = $null
 
   $contentType = 'application/x-www-form-urlencoded'
+  $skipCert = ($ENV:PuppetConsoleIgnoreSSL -ne $null) -and ($ENV:PuppetConsoleIgnoreSSL.ToUpper() -eq 'TRUE')
   $result = Invoke-WebRequest -Uri "$($ENV:PuppetConsoleURI)/auth/login" -ContentType $contentType `
-    -Method Post -Body $body -SessionVariable sv
+    -Method Post -Body $body -SessionVariable sv -SkipCertificateCheck:$skipCert
 
   $body = $null
   $password = $null
@@ -519,7 +520,8 @@ Function Script:Invoke-PuppetRequest($URI, $Method = 'GET', $Body = $null) {
   if ($Body -ne $null) { $iwrArgs.Add('Body', $Body) }
   $oldPreference = $progressPreference
   $progressPreference = 'SilentlyContinue'
-  $result = Invoke-WebRequest @iwrArgs
+  $skipCert = ($ENV:PuppetConsoleIgnoreSSL -ne $null) -and ($ENV:PuppetConsoleIgnoreSSL.ToUpper() -eq 'TRUE')
+  $result = Invoke-WebRequest @iwrArgs -SkipCertificateCheck:$skipCert
   $progressPreference = $oldPreference
 
   Return $result.Content
